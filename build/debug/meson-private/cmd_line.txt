@@ -1,0 +1,7 @@
+[options]
+prefix = /home/marcelmayor/PAV
+libdir = lib
+buildtype = debug
+
+[properties]
+
