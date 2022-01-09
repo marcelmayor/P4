@@ -79,16 +79,19 @@ ejercicios indicados.
     parametrizadas.
     
     Para la parametrización LP:
+
     **~/PAV/P4$ fmatrix_show work/lp/BLOCK00/SES000/*.lp | egrep '^\[' | cut -f4,5 > lp_2_3.txt**
     
     <kbd><img src="img/coef23_lp.PNG" align="center"></kbd>
     
     Para la parametrización LPCC:
+
     **~/PAV/P4$ fmatrix_show work/lpcc/BLOCK00/SES000/*.lpcc | egrep '^\[' | cut -f4,5 > lpcc_2_3.txt**
     
     <kbd><img src="img/coef23_lpcc.PNG" align="center"></kbd>
     
     Para la parametrización MFCC:
+    
     **~/PAV/P4$ fmatrix_show work/mfcc/BLOCK00/SES000/*.mfcc | egrep '^\[' | cut -f4,5 > mfcc_2_3.txt**
     
     <kbd><img src="img/coef23_mfcc.PNG" align="center"></kbd>
