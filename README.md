@@ -195,6 +195,9 @@ Complete el código necesario para realizar verificación del locutor y optimice
   Para la parametrización MFCC, el resultado de la verificación es el siguiente:
 
   <kbd><img src="img/verificacion_mfcc.PNG" align="center"></kbd>
+
+
+  Podemos ver que el mejor resultado lo obtenemos con la parametrización MFCC.
  
 ### Test final
 

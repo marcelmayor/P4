@@ -168,6 +168,7 @@ for cmd in $*; do
 	   # - The name of the world model will be used by gmm_verify in the 'verify' command below.
        #echo "Implement the trainworld option ..."
        # gmm_train -v 1 -T 1e-6 -n 40 -m 40 -d $w/$FEAT -e $FEAT -g $w/gmm/$FEAT/$world.gmm $lists/verif/$world.train || exit 1
+       # DONE Realizado
        gmm_train -i 1 -n 40 -t 1e-6 -v 1 -T 1e-3 -N 50 -m 40 -d $w/$FEAT -e $FEAT -g $w/gmm/$FEAT/$world.gmm $lists/verif/$world.train || exit 1
    elif [[ $cmd == verify ]]; then
        ## @file
@@ -179,6 +180,7 @@ for cmd in $*; do
 	   #   * <code> gmm_verify ... > $w/verif_${FEAT}_${name_exp}.log </code>
 	   #   * <code> gmm_verify ... | tee $w/verif_${FEAT}_${name_exp}.log </code>
        # echo "Implement the verify option ..."
+       # \DONE Realizado
        gmm_verify -d $w/$FEAT -e $FEAT -D $w/gmm/$FEAT/ -E gmm -w $world lists/gmm.list lists/verif/all.test lists/verif/all.test.candidates | tee $w/verif_${FEAT}_${name_exp}.log
 
    elif [[ $cmd == verif_err ]]; then
@@ -198,10 +200,19 @@ for cmd in $*; do
 	   # recognized is lists/final/class.test
        #echo "To be implemented ..."
 
+       # compute_mfcc $db_test $lists/final/class.test
+
        FEAT=mfcc
-       compute_mfcc $db_test $lists/final/class.test
-       (gmm_classify -d $w/$FEAT -e $FEAT -D $w/gmm/$FEAT -E gmm $lists/gmm.list  $lists/final/class.test | tee class_test.log) || exit 1
-   
+       db=spk_8mu/sr_test
+
+        for filename in $(cat $lists/final/class.test); do
+            mkdir -p `dirname $w/$FEAT/$filename.$FEAT`
+            EXEC="wav2mfcc 16 20 8 $db/$filename.wav $w/$FEAT/$filename.$FEAT"
+            echo $EXEC && $EXEC || exit 1
+        done
+
+       (gmm_classify -d $w/$FEAT -e $FEAT -D $w/gmm/$FEAT -E gmm $lists/gmm.list  $lists/final/class.test | tee $w/class_test.log) || exit 1
+
    elif [[ $cmd == finalverif ]]; then
        ## @file
 	   # \TODO
@@ -210,7 +221,18 @@ for cmd in $*; do
 	   # is lists/final/verif.test, and the list of users claimed by the test files is
 	   # lists/final/verif.test.candidates
        #echo "To be implemented ..."
-       compute_mfcc $db_test $lists/final/verif.test
+       # \DONE Realizado
+       # compute_mfcc $db_test $lists/final/verif.test
+
+       FEAT=mfcc
+       db=spk_8mu/sr_test
+       
+       for filename in $(cat $lists/final/verif.test); do
+            mkdir -p `dirname $w/$FEAT/$filename.$FEAT`
+            EXEC="wav2mfcc 16 20 8 $db/$filename.wav $w/$FEAT/$filename.$FEAT"
+            echo $EXEC && $EXEC || exit 1
+       done
+
        gmm_verify -d $w/$FEAT -e $FEAT -D $w/gmm/$FEAT/ -E gmm -w $world lists/final/verif.users lists/final/verif.test lists/final/verif.test.candidates | tee $w/verif_test.log
        perl -ane 'print "$F[0]\t$F[1]\t";
                   if ($F[2] > 0.540715836899197) {print "1\n"}
@@ -220,7 +242,7 @@ for cmd in $*; do
    # of a feature and a compute_$FEAT function exists.
    elif [[ "$(type -t compute_$cmd)" = function ]]; then
 	   FEAT=$cmd
-       compute_$FEAT $db $lists/class/all.train $lists/class/all.test      
+       compute_$FEAT # $db $lists/class/all.train $lists/class/all.test      
    else
        echo "undefined command $cmd" && exit 1
    fi
