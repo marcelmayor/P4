@@ -142,7 +142,7 @@ Complete el código necesario para entrenar modelos GMM.
   de la página 20 del enunciado puede servirle de referencia del resultado deseado). Analice la capacidad
   del modelado GMM para diferenciar las señales de uno y otro.
 
-  <kbd><img src="img/comparacion.PNG" align="center"></kbd>
+  <kbd><img src="img/comparacion_modelos.png" align="center"></kbd>
 
   En la gráfica podemos ver las regiones con el 99 %, 90 % y 50 % de la masa de probabilidad para los GMM de los locutores SES000 (en rojo, arriba) y SES005 (en azul, abajo); también se muestra la población del usuario SES000 (en rojo, izquierda) y SES005 (en azul, derecha).
 
