@@ -69,7 +69,7 @@ int main(int argc, const char *argv[]) {
     break;
 
   default:
-    gmm.random_init(data, nmix)
+    gmm.random_init(data, nmix);
     ;
   }
 
